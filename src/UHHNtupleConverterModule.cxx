@@ -155,6 +155,8 @@ private:
     uhh2::Event::Handle<float>  b_pdf_x1;
     uhh2::Event::Handle<float>  b_pdf_x2;
     uhh2::Event::Handle<float>  b_pdf_scalePDF;
+    uhh2::Event::Handle<int>  b_pdf_id1;
+    uhh2::Event::Handle<int>  b_pdf_id2;    
     uhh2::Event::Handle<float>  b_weightGen;
     uhh2::Event::Handle<float>  b_weightGen_LO;
     uhh2::Event::Handle<float>  b_weightPU;
@@ -543,6 +545,8 @@ UHHNtupleConverterModule::UHHNtupleConverterModule(Context & ctx){
     b_pdf_x1 = ctx.declare_event_output<float>("pdf_x1");
     b_pdf_x2 = ctx.declare_event_output<float>("pdf_x2");
     b_pdf_scalePDF = ctx.declare_event_output<float>("pdf_scalePDF");
+    b_pdf_id1 = ctx.declare_event_output<int>("pdf_id1");
+    b_pdf_id2 = ctx.declare_event_output<int>("pdf_id2");
     b_weightGen = ctx.declare_event_output<float>("genWeight");
     b_weightGen_LO = ctx.declare_event_output<float>("genWeight_LO");
     b_weightPU = ctx.declare_event_output<float>("puWeight");
@@ -1218,6 +1222,8 @@ bool UHHNtupleConverterModule::process(Event & event) {
     event.set(b_pdf_x1, isMC ? event.genInfo->pdf_x1() : -9999);
     event.set(b_pdf_x2, isMC ? event.genInfo->pdf_x2() : -9999);
     event.set(b_pdf_scalePDF, isMC ? event.genInfo->pdf_scalePDF() : -9999);
+    event.set(b_pdf_id1, isMC ? event.genInfo->pdf_id1() : -9999);
+    event.set(b_pdf_id2, isMC ? event.genInfo->pdf_id2() : -9999);    
     event.set(b_nTrueInt,isMC ? event.genInfo->pileup_TrueNumInteractions() : 1);
     event.set(b_rho,event.rho);
     event.set(b_nVert,event.pvs->size());
