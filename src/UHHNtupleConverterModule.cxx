@@ -1046,6 +1046,16 @@ bool UHHNtupleConverterModule::process(Event & event) {
             cout << "         Please check which LHE weight to take to reweight to LO PDF" << endl;
         }
       }
+      else if( isTTbar && (year == Year::is2018 || year == Year::is2017v2 || year == Year::is2017v1) ){
+        if(event.genInfo->systweights().size()==1080){
+            // Scenario 7: reweight central PDF NNPDF31_nnlo_hessian_pdfas (LHAPDF ID: 306000) to NNPDF31_nlo_hessian_pdfas (LHAPDF ID: 305800) -- 5FS
+            // 9 scale variations incl. nominal, assuming central PDF 306000
+            // PDF set list is https://github.com/cms-sw/genproductions/blob/18702a67988278c7f34cecdbd398f83684076bb0/MetaData/pdflist_5f_2017.dat 
+            // Note: this is actuall NLO PDF, but we can use the LO branch for convenience
+            genWeight_LO = (event.genInfo->systweights()[120] / event.genInfo->systweights()[0]) * genWeight;
+        }
+
+      }
       else{
         // In 2016 signal samples (or background), no LO PDF reweighting should be done; set LO weights to default weights for simplicity
         genWeight_LO = genWeight;
